@@ -218,10 +218,11 @@ export const about = {
 export const buildNote = {
   summary:
     "Next.js App Router and Tailwind CSS, statically exported, with the unused React runtime stripped after build. The hero's 3D scene is three.js, loaded only after the page's largest paint; it renders on demand and stops when idle. Two self-hosted fonts, inlined CSS, and motion that respects reduced-motion settings.",
-  // Measured with Lighthouse 12.8 (mobile preset) against the production build
-  // on 2026-11-11. Re-run `npm run lighthouse` after changes and update these.
-  // Set to null to hide the scores.
-  lighthouse: { performance: 100, accessibility: 100, bestPractices: 100, seo: 100, lcp: "1.4 s", cls: "0" } as null | {
-    performance: number; accessibility: number; bestPractices: number; seo: number; lcp: string; cls: string;
+  // Measured with Lighthouse 12.8 (mobile preset) against the live site
+  // (lakshya-katewa.github.io) on 2026-11-11, home page, two runs.
+  // Re-run `LH_URL=https://lakshya-katewa.github.io npm run lighthouse` after
+  // changes and update these. Set to null to hide the scores.
+  lighthouse: { performance: "97–99", accessibility: 100, bestPractices: 100, seo: 100, lcp: "1.1–1.3 s", cls: "0" } as null | {
+    performance: number | string; accessibility: number; bestPractices: number; seo: number; lcp: string; cls: string;
   },
 };

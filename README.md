@@ -2,7 +2,9 @@
 
 Personal portfolio. Next.js (App Router) + TypeScript + Tailwind CSS v4, exported as a fully static site.
 
-Lighthouse (mobile preset, production build, 2026-11-11): **Performance 100 · Accessibility 100 · Best Practices 100 · SEO 100**. LCP 1.4 s (home, with the 3D hero) and 1.2 s (case study), CLS 0. Home ranged 98–100 across runs while the 3D work was tuned.
+Live: https://lakshya-katewa.github.io/
+
+Lighthouse (mobile preset, live site, 2026-11-11): home **Performance 97–99 · Accessibility 100 · Best Practices 100 · SEO 100**, LCP 1.1–1.3 s, CLS 0. Case study: 100 / 100 / 100 / 100, LCP 1.0–1.1 s.
 
 ## Setup
 
