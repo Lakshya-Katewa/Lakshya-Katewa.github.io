@@ -21,10 +21,8 @@ import {
   PlaneGeometry,
   Scene,
   SRGBColorSpace,
-  TextureLoader,
   Vector2,
   WebGLRenderer,
-  type Texture,
 } from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
@@ -55,6 +53,23 @@ const SCREEN_H = 1170;
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   ctx.beginPath();
   ctx.roundRect(x, y, w, h, r);
+}
+
+/** Draw a screenshot into the rounded screen, cropped to fill (cover), anchored to the top. */
+function drawShot(ctx: CanvasRenderingContext2D, img: HTMLImageElement, p: Palette) {
+  const W = SCREEN_W;
+  const H = SCREEN_H;
+  ctx.clearRect(0, 0, W, H);
+  ctx.save();
+  roundRect(ctx, 0, 0, W, H, 62);
+  ctx.clip();
+  ctx.fillStyle = p.surface;
+  ctx.fillRect(0, 0, W, H);
+  const scale = Math.max(W / img.naturalWidth, H / img.naturalHeight);
+  const w = img.naturalWidth * scale;
+  const h = img.naturalHeight * scale;
+  ctx.drawImage(img, (W - w) / 2, 0, w, h);
+  ctx.restore();
 }
 
 function drawSplash(ctx: CanvasRenderingContext2D, p: Palette, fonts: { display: string; mono: string; sans: string }) {
@@ -262,7 +277,7 @@ export function mount(host: HTMLElement) {
   rig.add(bottle);
 
   /* theme + screen content */
-  let shotTexture: Texture | null = null;
+  let shotImg: HTMLImageElement | null = null;
   function applyTheme() {
     const p = readPalette();
     bodyMat.color.set(p.dark ? "#34312b" : "#1c1a17");
@@ -271,7 +286,10 @@ export function mount(host: HTMLElement) {
     hemi.color.set(p.dark ? 0xcfd8e6 : 0xffffff);
     hemi.groundColor.set(p.dark ? 0x1a1916 : 0x8a8170);
     shadowMat.opacity = p.dark ? 0.6 : 0.3;
-    if (!shotTexture) {
+    if (shotImg) {
+      drawShot(screenCanvas.getContext("2d")!, shotImg, p);
+      screenTex.needsUpdate = true;
+    } else {
       const cs = getComputedStyle(document.documentElement);
       const fonts = {
         // set on <html> by next/font
@@ -286,13 +304,13 @@ export function mount(host: HTMLElement) {
   }
 
   if (screenshot) {
-    new TextureLoader().load(screenshot, (tex) => {
-      tex.colorSpace = SRGBColorSpace;
-      shotTexture = tex;
-      screenMat.map = tex;
-      screenMat.needsUpdate = true;
-      requestRender();
-    });
+    const img = new Image();
+    img.decoding = "async";
+    img.onload = () => {
+      shotImg = img;
+      applyTheme();
+    };
+    img.src = screenshot;
   }
 
   /* sizing */

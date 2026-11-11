@@ -18,9 +18,12 @@ export function PhoneFrame({ screenshot, steps, priority = false, className = ""
   return (
     <figure className={`mx-auto w-full max-w-[17rem] ${className}`}>
       <div className="relative rounded-[2.4rem] bg-phone p-[0.55rem] shadow-[0_30px_60px_-30px_rgba(0,0,0,0.45)] ring-1 ring-black/10">
-        <div className="relative aspect-[9/19.5] overflow-hidden rounded-[1.9rem] bg-surface">
-          {/* camera notch */}
-          <div aria-hidden="true" className="absolute left-1/2 top-2 z-10 h-5 w-20 -translate-x-1/2 rounded-full bg-phone" />
+        {/* screenshots are 9:16 captures; the schematic uses a modern 9:19.5 screen */}
+        <div className={`relative overflow-hidden rounded-[1.9rem] bg-surface ${screenshot ? "aspect-[9/16]" : "aspect-[9/19.5]"}`}>
+          {/* camera notch (the screenshots carry their own status bar) */}
+          {screenshot ? null : (
+            <div aria-hidden="true" className="absolute left-1/2 top-2 z-10 h-5 w-20 -translate-x-1/2 rounded-full bg-phone" />
+          )}
           {screenshot ? (
             <Image
               src={asset(`/screenshots/${screenshot.file}`)}

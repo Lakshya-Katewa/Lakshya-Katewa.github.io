@@ -111,9 +111,21 @@ export const caseStudy = {
   // The site checks /public/screenshots/ at build time and only shows the
   // ones that exist. Without any, the phone frame shows a schematic.
   screenshots: [
-    { file: "app-home.png", alt: "ChinarAgro home screen with product categories", caption: "Home & browse" },
-    { file: "app-cart.png", alt: "ChinarAgro cart and checkout screen", caption: "Cart & checkout" },
-    { file: "app-tracking.png", alt: "ChinarAgro order tracking screen", caption: "Order tracking" },
+    {
+      file: "app-home.webp",
+      alt: "ChinarAgro home screen: greeting with delivery pincode, service-area banner, product search, category chips and a refer-and-earn card",
+      caption: "Home & browse",
+    },
+    {
+      file: "app-subscriptions.webp",
+      alt: "ChinarAgro subscriptions screen listing milk subscriptions with active and cancelled status badges and progress bars",
+      caption: "Subscriptions",
+    },
+    {
+      file: "app-orders.webp",
+      alt: "ChinarAgro orders screen showing delivered orders with delivery time and total paid (address blurred)",
+      caption: "Orders & delivery",
+    },
   ] satisfies Screenshot[],
   related: [
     {

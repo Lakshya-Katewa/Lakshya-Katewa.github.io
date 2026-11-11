@@ -1,14 +1,13 @@
 # App screenshots
 
-Drop real ChinarAgro screenshots here with these exact names, then rebuild:
+Shown in the case study, and `app-home.webp` also appears on the 3D phone in the hero.
 
-| File               | Shown as            |
-| ------------------ | ------------------- |
-| `app-home.png`     | Home & browse (also the main phone mockup) |
-| `app-cart.png`     | Cart & checkout     |
-| `app-tracking.png` | Order tracking      |
+| File                     | Caption           |
+| ------------------------ | ----------------- |
+| `app-home.webp`          | Home & browse     |
+| `app-subscriptions.webp` | Subscriptions     |
+| `app-orders.webp`        | Orders & delivery |
 
-- Portrait phone captures (about 9:19.5, e.g. 1080×2340) look best. They are cropped to the frame from the top.
-- Keep each under ~200 KB (export as PNG, or convert to WebP and update the file names in `src/data/site.ts`).
-- Missing files are skipped automatically. With no files, the phone frame shows a schematic of the order flow.
-- Use your own captures from the app, not images from the Play Store listing.
+- Source captures are 1080×1920 (9:16). They're resized to 720×1280 WebP (~30–55 KB each). The phone frames use 9:16 when a screenshot is shown.
+- The delivery address in `app-orders.webp` is pixelated. The unredacted originals are in `/design-src/` (git-ignored, never deployed).
+- To change them, edit the `screenshots` list in `src/data/site.ts`. Missing files are skipped automatically.
