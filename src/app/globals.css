@@ -1,0 +1,313 @@
+@import "tailwindcss";
+
+/*
+ * Design idea: the order slip.
+ * Warm paper, ink-dark type, one milk-blue accent. Sections are separated
+ * by thin rules like line items on a receipt, and small mono labels carry
+ * the metadata. Everything else stays quiet so the work is the loudest thing.
+ */
+
+:root {
+  --paper: #f6f3ec;
+  --surface: #fffdf8;
+  --ink: #1c1a17;
+  --ink-2: #57524a;
+  --ink-3: #6f695f;
+  --rule: #ddd7cb;
+  --rule-strong: #c4bdae;
+  --accent: #24548a;
+  --accent-ink: #ffffff;
+  --accent-soft: #e4ecf5;
+  --focus: #24548a;
+  --phone: #1c1a17;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #13120f;
+    --surface: #1b1a16;
+    --ink: #ede8dd;
+    --ink-2: #b0a99c;
+    --ink-3: #9a9386;
+    --rule: #2f2d27;
+    --rule-strong: #46433b;
+    --accent: #93b8e0;
+    --accent-ink: #10161d;
+    --accent-soft: #1c2733;
+    --focus: #93b8e0;
+    --phone: #000000;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #13120f;
+  --surface: #1b1a16;
+  --ink: #ede8dd;
+  --ink-2: #b0a99c;
+  --ink-3: #9a9386;
+  --rule: #2f2d27;
+  --rule-strong: #46433b;
+  --accent: #93b8e0;
+  --accent-ink: #10161d;
+  --accent-soft: #1c2733;
+  --focus: #93b8e0;
+  --phone: #000000;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-phone: var(--phone);
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, monospace;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  /* Mono metadata label, e.g. "01 — Featured work" */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  /* Receipt line: label .......... value */
+  .leader {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+  .leader::after {
+    content: "";
+    order: 1;
+    flex: 1 1 1rem;
+    min-width: 1rem;
+    border-bottom: 1px dotted var(--rule-strong);
+    transform: translateY(-0.3em);
+  }
+  .leader > :last-child {
+    order: 2;
+    text-align: right;
+  }
+
+  /* Perforated edge, like a tear-off slip */
+  .perforated {
+    background-image: radial-gradient(circle at 6px 0, var(--paper) 4px, transparent 4.5px);
+    background-size: 12px 8px;
+    background-repeat: repeat-x;
+    background-position: 0 0;
+  }
+
+  .link {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--rule-strong);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    transition: text-decoration-color 150ms ease, color 150ms ease;
+  }
+  .link:hover {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.625rem 1.125rem;
+    border-radius: 999px;
+    font-weight: 550;
+    font-size: 0.9375rem;
+    line-height: 1;
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease, transform 150ms ease;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .btn-primary:hover {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  .btn-ghost {
+    border: 1px solid var(--rule-strong);
+    color: var(--ink);
+  }
+  .btn-ghost:hover {
+    border-color: var(--ink);
+  }
+
+  .chip {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1;
+    padding: 0.375rem 0.5rem;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+}
+
+/*
+ * Entrance motion: pure CSS, no JS. Elements fade up as they scroll in,
+ * only in browsers with scroll-driven animations and only when the user
+ * hasn't asked for reduced motion. Content is never hidden otherwise.
+ */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .enter {
+    animation: settle 600ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero 3D stage                                                       */
+/* ------------------------------------------------------------------ */
+
+.hero-grid {
+  background-image:
+    linear-gradient(to right, var(--rule) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--rule) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.45;
+  mask-image: radial-gradient(ellipse 70% 60% at 75% 40%, #000 0%, transparent 75%);
+}
+
+.stage {
+  touch-action: pan-y; /* vertical swipes still scroll the page on phones */
+}
+.stage-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: grab;
+}
+.stage[data-dragging] .stage-canvas {
+  cursor: grabbing;
+}
+.stage-hint {
+  opacity: 0;
+}
+.stage[data-ready] .stage-canvas,
+.stage[data-ready] .stage-hint {
+  opacity: 1;
+}
+.stage[data-ready] .stage-fallback {
+  opacity: 0;
+  visibility: hidden;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .stage-canvas,
+  .stage-hint,
+  .stage-fallback {
+    transition: opacity 700ms ease, visibility 700ms;
+  }
+}
+
+@media (min-width: 64rem) {
+  .slip-row::after {
+    display: none;
+  }
+}
